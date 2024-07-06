@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route";
 import { UpdateProductInputDto, UpdateProductUsecase } from "../../../../../usecases/update-product/update-product.usecase";
 
+
 export type UpdateProductResponseDto = {
     id: string;
+    isExists?: boolean;
 }
 
 
@@ -35,10 +37,13 @@ export class UpdateProductRoute implements Route {
 
             const output: UpdateProductResponseDto = await this.updateProductService.execute(input);
 
-            const resp = this.present(output);
+            if (!output.isExists) {
+                response.status(400).json({ message: `Product ${id} not found!` }).send();
+            } else {
+                const resp = this.present(output);
 
-            response.status(201).json(resp).send();
-
+                response.status(201).json(resp).send();
+            }
         }
 
     }

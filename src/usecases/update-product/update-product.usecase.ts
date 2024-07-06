@@ -12,6 +12,7 @@ export type UpdateProductInputDto = {
 
 export type UpdateProductOutputDto = {
     id: string;
+    isExists: boolean;
 };
 
 export class UpdateProductUsecase
@@ -28,17 +29,18 @@ export class UpdateProductUsecase
 
         const updateProduct = Product.create(id, name, price);
 
-        await this.productGateway.update(updateProduct);
+        const result = await this.productGateway.update(updateProduct);
 
-        const output = this.presentOutput(updateProduct);
+        const output = this.presentOutput(updateProduct, result);
 
         return output;
     }
 
-    private presentOutput(product: Product): UpdateProductOutputDto {
+    private presentOutput(product: Product, isExists: boolean): UpdateProductOutputDto {
 
         const output: UpdateProductOutputDto = {
-            id: product.id
+            id: product.id,
+            isExists
         }
 
         return output;

@@ -39,7 +39,15 @@ export class ProductRepositoryPrisma implements ProductGateway {
         return productList;
     }
 
-    async update({ id, name, price }: Product): Promise<void> {
+    async update({ id, name, price }: Product): Promise<boolean> {
+
+        const existsProduct = await this.prismaClient.product.findUnique({
+            where: {
+                id
+            },
+        });
+
+        if (!existsProduct) return false;
 
         await this.prismaClient.product.update({
             where: {
@@ -51,6 +59,6 @@ export class ProductRepositoryPrisma implements ProductGateway {
             },
         });
 
-
+        return true;
     }
 }
