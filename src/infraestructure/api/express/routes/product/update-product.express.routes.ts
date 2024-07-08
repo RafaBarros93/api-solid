@@ -38,11 +38,11 @@ export class UpdateProductRoute implements Route {
             const output: UpdateProductResponseDto = await this.updateProductService.execute(input);
 
             if (!output.isExists) {
-                response.status(400).json({ message: `Product ${id} not found!` }).send();
+                response.status(401).json({ message: `Product ${id} not found!` }).send();
             } else {
                 const resp = this.present(output);
 
-                response.status(201).json(resp).send();
+                response.status(201).json(resp.isExists).send();
             }
         }
 

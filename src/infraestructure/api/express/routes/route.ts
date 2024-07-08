@@ -5,7 +5,7 @@ export const HttpMethod = {
     GET: "get" as HttpMethod,
     POST: "post" as HttpMethod,
     PUT: "put" as HttpMethod,
-    DELETE: "DELETE" as HttpMethod
+    DELETE: "delete" as HttpMethod
 
 }
 

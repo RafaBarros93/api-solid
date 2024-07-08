@@ -61,4 +61,24 @@ export class ProductRepositoryPrisma implements ProductGateway {
 
         return true;
     }
+
+    async delete(id: string): Promise<boolean> {
+
+        const existsProduct = await this.prismaClient.product.findUnique({
+            where: {
+                id
+            },
+        });
+
+        if (!existsProduct) return false;
+
+
+        await this.prismaClient.product.delete({
+            where: {
+                id
+            },
+        });
+
+        return true;
+    }
 }
